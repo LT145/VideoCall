@@ -79,6 +79,7 @@ function Login() {
             <FacebookLogin
               appId="995034005929343"
               onSuccess={handleFacebookLogin}
+              scope="email,public_profile"
               style={{
                 backgroundColor: '#1877F2',
                 padding: '10px 20px',
