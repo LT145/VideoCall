@@ -2,9 +2,11 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { useEffect } from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Login from './pages/Login';
-import VideoCall from './VideoCall';
+import Home from './pages/Home';
+import Room from './pages/Room';
 
-export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+// Move ProtectedRoute before App component and export it
+export const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const user = localStorage.getItem('user');
 
@@ -25,10 +27,18 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
-            path="/*"
+            index
             element={
               <ProtectedRoute>
-                <VideoCall />
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/room/:roomId"
+            element={
+              <ProtectedRoute>
+                <Room />
               </ProtectedRoute>
             }
           />
