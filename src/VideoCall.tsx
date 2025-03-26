@@ -29,13 +29,14 @@ const App: React.FC = () => {
       
       const userData = JSON.parse(localStorage.getItem('user') || '{}');
       const userName = userData.name || userData.email || randomID(5);
+      const userID = userData.sub || randomID(5); // Using Google's sub as userID
 
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,
         serverSecret,
         roomID,
-        randomID(5), // userID
-        userName     // Using name from Google profile, fallback to email or random ID
+        userID,      // Using consistent userID from Google
+        userName     // Using name from Google profile
       );
 
       const zp = ZegoUIKitPrebuilt.create(kitToken);
@@ -54,8 +55,17 @@ const App: React.FC = () => {
             },
           ],
           scenario: {
-            mode: ZegoUIKitPrebuilt.GroupCall, // Change to OneONoneCall for 1-on-1 calls
+            mode: ZegoUIKitPrebuilt.GroupCall,
+            config: {
+              role: ZegoUIKitPrebuilt.Host,
+            }
           },
+          turnOnMicrophoneWhenJoining: true,
+          turnOnCameraWhenJoining: true,
+          showMyCameraToggleButton: true,
+          showMyMicrophoneToggleButton: true,
+          showAudioVideoSettingsButton: true,
+          showScreenSharingButton: true,
         });
       }
     };
